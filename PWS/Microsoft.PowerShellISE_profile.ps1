@@ -720,3 +720,25 @@ SELECT CAST(GETDATE() AS [date]) [load_date]
 
     "Data captured in $(((Get-Date).Subtract($dStartDateTime)).ToString())."
 }
+
+
+function Invoke-Robocopy {
+    param ([string] [Parameter(Mandatory)] $Source,
+           [string] [Parameter(Mandatory)] $Destination,
+           [string] $Filter,
+           [switch] $Recurse,
+           [switch] $Open)
+
+    if ($Recurse) {
+        $DoRecurse = '/S'
+    }
+    else {
+        $DoRecurse = ''
+    }
+
+    robocopy $Source $Destination $Filter $DoRecurse /R:0
+
+    if ($Open) {
+        exploers.exe $Destination
+    }
+}
