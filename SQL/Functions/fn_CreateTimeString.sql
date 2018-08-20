@@ -13,7 +13,7 @@
   DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
               personal property, creating singularities, making deep fried chicken, causing your 
               toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
-			  killing your buzz or ANYTHING else that can be thought up.
+              killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------*/
 USE master
 GO

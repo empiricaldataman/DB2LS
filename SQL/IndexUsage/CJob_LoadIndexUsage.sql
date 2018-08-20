@@ -22,11 +22,11 @@ EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N'LoadIndexUsage',
 		@delete_level=0, 
 		@description=N'Collect index usage information for SQL instance/database', 
 		@category_name=N'Data Collector', 
-		@owner_login_name=N'sa', 
-		@notify_email_operator_name=N'DBA', @job_id = @jobId OUTPUT
+		@owner_login_name=N'THERIVER\syoung', 
+		@notify_email_operator_name=N'Sal Young', @job_id = @jobId OUTPUT
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
-EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadIndexUsage - InstanceName\A.DB_0', 
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadIndexUsage - CHAGRES02\BAYANO.AdventureWorks2012', 
 		@step_id=1, 
 		@cmdexec_success_code=0, 
 		@on_success_action=3, 
@@ -36,12 +36,12 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadInde
 		@retry_attempts=0, 
 		@retry_interval=0, 
 		@os_run_priority=0, @subsystem=N'CmdExec', 
-		@command=N'powershell.exe -noprofile Set-Location "D:\SQLScripts"; .\SMO_LoadIndexUsage.ps1 -SQLInstanceSource "InstanceName\A" -SQLDBSource "DB_0"', 
+		@command=N'powershell.exe -noprofile Set-Location "D:\SQLScripts"; .\SMO_LoadIndexUsage.ps1 -SQLInstanceSource "CHAGRES02\BAYANO" -SQLDBSource "AdventureWorks2012"', 
 		@output_file_name=N'D:\SQLJobLogs\LoadIndexUsage.out', 
 		@flags=0
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
-EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadIndexUsage - InstanceName\B.DB_1', 
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadIndexUsage - CHAGRES02\BAYANO.bluesheet', 
 		@step_id=2, 
 		@cmdexec_success_code=0, 
 		@on_success_action=1, 
@@ -51,82 +51,7 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadInde
 		@retry_attempts=0, 
 		@retry_interval=0, 
 		@os_run_priority=0, @subsystem=N'CmdExec', 
-		@command=N'powershell.exe -noprofile Set-Location "D:\SQLScripts"; .\SMO_LoadIndexUsage.ps1 -SQLInstanceSource "InstanceName" -SQLDBSource "DB_1"', 
-		@output_file_name=N'D:\SQLJobLogs\LoadIndexUsage.out', 
-		@flags=2
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
-EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadIndexUsage - InstanceName\C.DB_3', 
-		@step_id=3, 
-		@cmdexec_success_code=0, 
-		@on_success_action=3, 
-		@on_success_step_id=0, 
-		@on_fail_action=3, 
-		@on_fail_step_id=0, 
-		@retry_attempts=0, 
-		@retry_interval=0, 
-		@os_run_priority=0, @subsystem=N'CmdExec', 
-		@command=N'powershell.exe -noprofile Set-Location "D:\SQLScripts"; .\SMO_LoadIndexUsage.ps1 -SQLInstanceSource "InstanceName" -SQLDBSource "DB_3"', 
-		@output_file_name=N'D:\SQLJobLogs\LoadIndexUsage.out', 
-		@flags=0
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
-EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadIndexUsage - InstanceName\D.DB_4', 
-		@step_id=4, 
-		@cmdexec_success_code=0, 
-		@on_success_action=3, 
-		@on_success_step_id=0, 
-		@on_fail_action=3, 
-		@on_fail_step_id=0, 
-		@retry_attempts=0, 
-		@retry_interval=0, 
-		@os_run_priority=0, @subsystem=N'CmdExec', 
-		@command=N'powershell.exe -noprofile Set-Location "D:\SQLScripts"; .\SMO_LoadIndexUsage.ps1 -SQLInstanceSource "InstanceName" -SQLDBSource "DB_4"', 
-		@output_file_name=N'D:\SQLJobLogs\LoadIndexUsage.out', 
-		@flags=2
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
-EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadIndexUsage - InstanceName\E.DB_5', 
-		@step_id=5, 
-		@cmdexec_success_code=0, 
-		@on_success_action=3, 
-		@on_success_step_id=0, 
-		@on_fail_action=3, 
-		@on_fail_step_id=0, 
-		@retry_attempts=0, 
-		@retry_interval=0, 
-		@os_run_priority=0, @subsystem=N'CmdExec', 
-		@command=N'powershell.exe -noprofile Set-Location "D:\SQLScripts"; .\SMO_LoadIndexUsage.ps1 -SQLInstanceSource "InstanceName" -SQLDBSource "DB_5"', 
-		@output_file_name=N'D:\SQLJobLogs\LoadIndexUsage.out', 
-		@flags=2
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
-EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadIndexUsage - InstanceName\F.DB_6', 
-		@step_id=6, 
-		@cmdexec_success_code=0, 
-		@on_success_action=3, 
-		@on_success_step_id=0, 
-		@on_fail_action=3, 
-		@on_fail_step_id=0, 
-		@retry_attempts=0, 
-		@retry_interval=0, 
-		@os_run_priority=0, @subsystem=N'CmdExec', 
-		@command=N'powershell.exe -noprofile Set-Location "D:\SQLScripts"; .\SMO_LoadIndexUsage.ps1 -SQLInstanceSource "InstanceName" -SQLDBSource "DB_6"', 
-		@output_file_name=N'D:\SQLJobLogs\LoadIndexUsage.out', 
-		@flags=2
-IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
-EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'LoadIndexUsage - InstanceName\G.DB_7', 
-		@step_id=7, 
-		@cmdexec_success_code=0, 
-		@on_success_action=1, 
-		@on_success_step_id=0, 
-		@on_fail_action=3, 
-		@on_fail_step_id=0, 
-		@retry_attempts=0, 
-		@retry_interval=0, 
-		@os_run_priority=0, @subsystem=N'CmdExec', 
-		@command=N'powershell.exe -noprofile Set-Location "D:\SQLScripts"; .\SMO_LoadIndexUsage.ps1 -SQLInstanceSource "InstanceName" -SQLDBSource "DB_7"', 
+		@command=N'powershell.exe -noprofile Set-Location "D:\SQLScripts"; .\SMO_LoadIndexUsage.ps1 -SQLInstanceSource "CHAGRES02\BAYANO" -SQLDBSource "bluesheet"', 
 		@output_file_name=N'D:\SQLJobLogs\LoadIndexUsage.out', 
 		@flags=2
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
@@ -140,11 +65,10 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobschedule @job_id=@jobId, @name=N'LoadIndex
 		@freq_subday_interval=0, 
 		@freq_relative_interval=0, 
 		@freq_recurrence_factor=0, 
-		@active_start_date=20180326, 
+		@active_start_date=20180819, 
 		@active_end_date=99991231, 
 		@active_start_time=200000, 
-		@active_end_time=235959, 
-		@schedule_uid=N'c24f07fa-548d-4be4-9f10-4a2f6c6d656b'
+		@active_end_time=235959
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
@@ -153,6 +77,5 @@ GOTO EndSave
 QuitWithRollback:
     IF (@@TRANCOUNT > 0) ROLLBACK TRANSACTION
 EndSave:
+
 GO
-
-
