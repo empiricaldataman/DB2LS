@@ -1,7 +1,14 @@
+USE [msdb]
+GO
+
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
+GO
+
+IF OBJECT_ID(N'dbo.pr_IndexMaintenance_Rebuild','P') IS NOT NULL
+   DROP PROCEDURE [dbo].[pr_IndexMaintenance_Rebuild]
 GO
 
 /*
@@ -18,6 +25,7 @@ GO
 -- 02.16.2018  SYOUNG        Add error message column to dbo.fragmentation_statistics
 -- 02.21.2018  SYOUNG        Add condition based on SQL edition.
 -- 02.27.2018  SYOUNG        Add break if past @timetostoprebuilding
+-- 06.12.2018  SYOUNG        Configuration values are now sourced from msdb.dbo.MaintenanceConfig
 -------------------------------------------------------------------------------------------------
   DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
               personal property, creating singularities, making deep fried chicken, causing your 
@@ -53,8 +61,10 @@ SET @edition = CAST(SERVERPROPERTY('Edition') AS VARCHAR(30))
 IF @edition LIKE '%Standard%' 
    SET @BuildOnline = 0
 
-SELECT @daytorebuild = [value] FROM [msdb].[dbo].[IndexMaintenanceConfig] WHERE [name] = 'DayToRebuild'
-SELECT @timetostoprebuilding = [value] FROM [msdb].[dbo].[IndexMaintenanceConfig] WHERE [name] = 'TimeToStopRebuilding'
+SELECT @daytorebuild = x.ConfigurationSettings.value('(/*/*/DayToRebuild)[1]','varchar(128)')
+     , @timetostoprebuilding = x.ConfigurationSettings.value('(/*/*/TimeToStopRebuilding)[1]','varchar(6)')
+  FROM [msdb].[dbo].[MaintenanceConfig] x
+ WHERE x.ConfigurationType = 'IndexMaintenance'
 
 IF (CHARINDEX(DATENAME(weekday, GETDATE()), @daytorebuild) > 0)
    BEGIN   

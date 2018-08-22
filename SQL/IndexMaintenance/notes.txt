@@ -1,0 +1,9 @@
+Run scripts in this order
+1. CT_MaintenanceConfig
+2. DML_MaintenanceConfig
+3. CT_fragmentation_statistics
+4. CP_pr_IndexMaintenance_GetDatabaseList
+5. CP_pr_IndexMaintenance_CollectFragmentation
+6. CP_pr_IndexMaintenance_Rebuild
+7.
+8. 
