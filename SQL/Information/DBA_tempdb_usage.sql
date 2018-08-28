@@ -6,7 +6,7 @@
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
--- F000000    08.21.2018  SYoung        Re-format T-SQL code
+-- F000000    02.18.2017  SYoung        Initial creation
 -------------------------------------------------------------------------------------------------
   DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
               personal property, creating singularities, making deep fried chicken, causing your 
