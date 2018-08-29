@@ -1,0 +1,1 @@
+exec sp_w @find_block_leaders = 1, @get_task_info= 0, @output_column_list = '[dd%][session_id][blocked_session_count][blocking_session_id][login_name][wait_info][status%][database_name][host_name][open_tran_count][sql_text]',@sort_order = '[blocked_session_count]DESC [blocking_session_id] DESC' 

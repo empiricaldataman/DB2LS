@@ -1,0 +1,1 @@
+EXEC sp_helpsrvrolemember '<SQLInstanceRoleName, sysobjects, RoleName>'
