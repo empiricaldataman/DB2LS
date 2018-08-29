@@ -42,6 +42,6 @@ SELECT SPID,
        SessionLoginName,
        StartTime       
   FROm fn_trace_gettable(@path,NULL)
- WHERE LoginName <> 'BROWER\SQLServiceManagement'
+ WHERE LoginName <> 'DOMAIN\AccountName'
  ORDER BY StartTime
 GO

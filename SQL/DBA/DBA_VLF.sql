@@ -57,4 +57,4 @@ SELECT COUNT(*)
 
 SELECT * 
   FROM tempdb..sp_LOGINFO 
- WHERE DBName = 'RevolvingCredit_ODS'
+ WHERE DBName = 'DBName'
