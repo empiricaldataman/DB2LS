@@ -39,7 +39,7 @@ CREATE TABLE #table_list (
      , schema_name VARCHAR(20)
      , object_name VARCHAR(80)
      , column_name VARCHAR(40)
-     , create_dateD ATETIME
+     , create_date DATETIME
      , replicated VARCHAR(10))
 	
 IF @database_name IS NULL
