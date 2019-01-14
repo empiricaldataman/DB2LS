@@ -134,7 +134,7 @@ IF @include_mnts = 1
 END
 ELSE
 BEGIN
-   SELECT date=CONVERT(CHAR(10),GETDATE(),101),
+   SELECT date=CONVERT(CHAR(10),GETDATE(),101)
         , LEFT(@@SERVERNAME,30) [instance_name]
         , LEFT(database_name,30) [database_name]
         , LEFT(file_name,40) [file_name]
