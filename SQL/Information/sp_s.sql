@@ -40,7 +40,11 @@ CREATE TABLE #table_list (
      , object_name VARCHAR(80)
      , column_name VARCHAR(40)
      , create_date DATETIME
+<<<<<<< HEAD
      , [replicated] VARCHAR(10))
+=======
+     , replicated VARCHAR(10))
+>>>>>>> 7f2defa34e66511a96c99439af8a32970250b11a
 	
 IF @database_name IS NULL
    BEGIN
