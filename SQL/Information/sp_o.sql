@@ -66,7 +66,7 @@ BEGIN
 END
 ELSE
 BEGIN
-	DECLARE database_cursor CURSOR FOR SELECT database_id FROM master.sys.databases WITH (NOLOCK) ORDER BY name
+	DECLARE database_cursor CURSOR FOR SELECT database_id FROM master.sys.databases WITH (NOLOCK) WHERE state_desc = 'ONLINE' ORDER BY [name]
 	OPEN database_cursor
 	FETCH NEXT FROM database_cursor INTO @database_id
 	WHILE @@FETCH_STATUS = 0

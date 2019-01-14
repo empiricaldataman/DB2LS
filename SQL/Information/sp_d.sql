@@ -58,7 +58,7 @@ CREATE TABLE #file_statistics (
   
 IF @database_name IS NULL  
    BEGIN  
-   DECLARE database_cursor CURSOR FOR SELECT [name] FROM [master].sys.databases WITH (NOLOCK) ORDER BY [name]  
+   DECLARE database_cursor CURSOR FOR SELECT [name] FROM [master].sys.databases WITH (NOLOCK) WHERE state_desc = 'ONLINE' ORDER BY [name]
    OPEN database_cursor  
    FETCH NEXT FROM database_cursor INTO @database_name  
    WHILE @@FETCH_STATUS = 0  

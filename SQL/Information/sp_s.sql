@@ -39,8 +39,8 @@ CREATE TABLE #table_list (
      , schema_name VARCHAR(20)
      , object_name VARCHAR(80)
      , column_name VARCHAR(40)
-     , create_dateD ATETIME
-     , replicated VARCHAR(10))
+     , create_date DATETIME
+     , [replicated] VARCHAR(10))
 	
 IF @database_name IS NULL
    BEGIN
@@ -51,7 +51,8 @@ IF @database_name IS NULL
    DECLARE database_cursor CURSOR
        FOR SELECT name 
              FROM master.sys.databases WITH (NOLOCK)
-            ORDER BY name
+            WHERE state_desc = 'ONLINE'
+			ORDER BY [name]
 
       OPEN database_cursor
      FETCH NEXT FROM database_cursor INTO @database_name
@@ -91,7 +92,8 @@ IF @database_name IS NULL
   
    DECLARE database_cursor CURSOR
        FOR SELECT [name] 
-             FROM master.sys.databases WITH (NOLOCK) 
+             FROM master.sys.databases WITH (NOLOCK)
+			WHERE state_desc = 'ONLINE'
             ORDER BY name
 
       OPEN database_cursor
@@ -132,7 +134,12 @@ IF @database_name IS NULL
 	PRINT ''
 	SET NOCOUNT ON
 	TRUNCATE TABLE #table_list
-	DECLARE database_cursor CURSOR FOR SELECT name FROM master.sys.databases WITH (NOLOCK) ORDER BY name
+	DECLARE database_cursor CURSOR FOR 
+	 SELECT [name] 
+	   FROM master.sys.databases WITH (NOLOCK)
+	  WHERE state_desc = 'ONLINE'
+	  ORDER BY [name]
+	  
 	OPEN database_cursor
 	FETCH NEXT FROM database_cursor INTO @database_name
 	WHILE @@FETCH_STATUS = 0
