@@ -9,6 +9,7 @@
 -- TR/PROJ#    DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
 -- F000000     02.12.2012  SYoung        Initial creation.
+--             02.18.2019  SYoung        Changed database from msdb to master.
 -------------------------------------------------------------------------------------------------
   DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
               personal property, creating singularities, making deep fried chicken, causing your 
@@ -40,7 +41,7 @@ BEGIN
          , CONVERT(int, EventClass) [EventClass]
          , DatabaseName
          , [Filename]
-         , msdb.dbo.fn_CreateTimeString((CAST(Duration AS numeric)/1000000.0)) [Duration]
+         , master.dbo.fn_CreateTimeString((CAST(Duration AS numeric)/1000000.0)) [Duration]
          , StartTime
          , EndTime
          , (IntegerData*8.0/1024) [ChangeInSize]
