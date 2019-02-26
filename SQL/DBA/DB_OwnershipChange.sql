@@ -9,11 +9,12 @@
 -- TR/PROJ#    DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
 --             06.17.2014  SYOUNG        Created on this date
+--             02.26.2019  SYOUNG        Add second way to accomplish the same task
 -------------------------------------------------------------------------------------------------
   DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
               personal property, creating singularities, making deep fried chicken, causing your 
               toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
-			        killing your buzz or ANYTHING else that can be thought up.
+              killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------
 */
 USE master
@@ -47,3 +48,25 @@ DECLARE C CURSOR
     END 
   CLOSE C
 DEALLOCATE C
+
+
+
+USE [master]
+GO
+
+IF OBJECT_ID(N'dbo.sp_foreachdb','P') IS NULL
+   PRINT 'ALERT - The stored procedure dbo.sp_foreachdb is missing from the master database.'
+   RETURN
+
+DECLARE	@return_value int
+
+EXEC	@return_value = [dbo].[sp_foreachdb]
+		@command = N'use [master]
+USE ?
+ALTER AUTHORIZATION ON DATABASE::? TO [sa]',
+		@replace_character = N'?',
+		@user_only = 1
+
+SELECT	'Return Value' = @return_value
+
+GO
