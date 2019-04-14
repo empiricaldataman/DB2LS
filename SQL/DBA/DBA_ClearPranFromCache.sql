@@ -1,8 +1,11 @@
 /*-----------------------------------------------------------------------------------------------
-        NAME: DBA_QSTORE.sql
+        NAME: DBA_ClearPlanFromCache.sql
   CREATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: Displays basic information about data in the query store
+ DESCRIPTION: Removes an execution plan from the cache
+
+              You must specify avalue for the template parameter. Hit CTRL + SHIFT + M and enter '
+              the object name.'
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
@@ -15,15 +18,12 @@
 -------------------------------------------------------------------------------------------------*/
 SET NOCOUNT ON
 
-SELECT CAST(GETDATE() AS DATE) [date]
-     , @@SERVERNAME [instance_name]
-     , A.query_id
-     , COUNT(C.plan_id) plan_count
-     , A.object_id
-     , MAX(DATEADD(MINUTE, -(DATEDIFF(MINUTE, GETDATE(), GETUTCDATE())), C.last_execution_time)) local_last_execution_time
-     , MAX(B.query_sql_text) query_text
-  FROM sys.query_store_query A
- INNER JOIN sys.query_store_query_text B ON A.query_text_id = B.query_text_id
- INNER JOIN sys.query_store_plan C ON A.query_id = C.query_id
- GROUP BY A.query_id, A.object_id
+DECLARE @handle varbinary(64)
+
+SELECT @handle = cp.plan_handle
+  FROM sys.dm_exec_cached_plans cp 
+ CROSS APPLY sys.dm_exec_sql_text(cp.plan_handle) st
+ WHERE OBJECT_NAME(st.objectid, st.[dbid]) = '<ObjectName, sysname, Operator Name>'
+
+DBCC FREEPROCCACHE(@handle)
 GO
