@@ -1,15 +1,15 @@
 USE [master]
 GO
 
-IF OBJECT_ID(N'dbo.sp_disable_foreignkeys','P') IS NOT NULL
-   DROP PROCEDURE dbo.sp_disable_foreignkeys
+IF OBJECT_ID(N'dbo.sp_dfk','P') IS NOT NULL
+   DROP PROCEDURE dbo.sp_dfk
 GO
 
 /*-------------------------------------------------------------------------------------------------
-        NAME: sp_disable_foreignkeys.sql
+        NAME: sp_dfk.sql
   UPDATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: Displays information about databases
+ DESCRIPTION: Disables foreign keys.
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ GO
               toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
               killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------*/
-CREATE PROCEDURE [dbo].[sp_disable_foreignkeys]
+CREATE PROCEDURE [dbo].[sp_dfk]
        @database SYSNAME
      , @schema SYSNAME = 'dbo'
      , @table SYSNAME = NULL

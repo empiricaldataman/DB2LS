@@ -11,7 +11,7 @@ GO
         NAME: sp_e.sql
   UPDATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: Displays information about databases
+ DESCRIPTION: Displays information about object level reference by using sys.dm_sql_referenced_entities
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------

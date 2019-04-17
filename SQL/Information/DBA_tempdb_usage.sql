@@ -7,6 +7,7 @@
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
 -- F000000    02.18.2017  SYoung        Initial creation
+--            02.20.2019  SYoung        Changed location of fn_CreateTimeString
 -------------------------------------------------------------------------------------------------
   DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
               personal property, creating singularities, making deep fried chicken, causing your 
@@ -23,9 +24,7 @@ SELECT TOP 10 ROW_NUMBER() OVER(PARTITION BY B.session_id ORDER BY (user_objects
      , program_name [application_name]
      , login_name [user_name]
      , [status]
-     , msdb.[dbo].[fn_CreateTimeString](cpu_time / 1000) [cpu_time]
-     --, msdb.[dbo].[fn_CreateTimeString](total_scheduled_time / 1000) AS [Total Scheduled TIME (in milisec)]
-     --, msdb.[dbo].[fn_CreateTimeString](total_elapsed_time / 1000) AS [Elapsed TIME (in milisec)]
+     , master.[dbo].[fn_CreateTimeString](cpu_time / 1000) [cpu_time]
      , (memory_usage * 8) [memory_usage_kb)]
      , (user_objects_alloc_page_count * 8) / 1024 [current_session_user_space_mb]
      , (user_objects_dealloc_page_count * 8)  AS [space_deallocated_for_user_objects_kb]

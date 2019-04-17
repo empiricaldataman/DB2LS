@@ -11,7 +11,7 @@ GO
         NAME: sp_c.sql
   UPDATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: Displays information about 
+ DESCRIPTION: Displays information about all connections grouped by source
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------

@@ -1,15 +1,15 @@
 USE [master]
 GO
 
-IF OBJECT_ID(N'dbo.sp_disable_indexes','P') IS NOT NULL
-   DROP PROCEDURE dbo.sp_disable_indexes
+IF OBJECT_ID(N'dbo.sp_di','P') IS NOT NULL
+   DROP PROCEDURE dbo.sp_di
 GO
 
 /*-------------------------------------------------------------------------------------------------
-        NAME: sp_disable_indexes.sql
+        NAME: sp_di.sql
   UPDATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: Displays information about databases
+ DESCRIPTION: Disable indexes
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ GO
               toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
               killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------*/
-CREATE PROCEDURE [dbo].[sp_disable_indexes]
+CREATE PROCEDURE [dbo].[sp_di]
        @database SYSNAME
      , @schema SYSNAME = 'dbo'
      , @table SYSNAME

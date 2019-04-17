@@ -1,15 +1,15 @@
 USE [master]
 GO
 
-IF OBJECT_ID(N'dbo.sp_disable_triggers','P') IS NOT NULL
-   DROP PROCEDURE dbo.sp_disable_triggers
+IF OBJECT_ID(N'dbo.sp_dt','P') IS NOT NULL
+   DROP PROCEDURE dbo.sp_dt
 GO
 
 /*-------------------------------------------------------------------------------------------------
-        NAME: sp_disable_triggers.sql
+        NAME: sp_dt.sql
   UPDATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: 
+ DESCRIPTION: Disable triggers
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ GO
               toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
               killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------*/
-CREATE PROCEDURE [dbo].[sp_disable_triggers]
+CREATE PROCEDURE [dbo].[sp_dt]
        @database SYSNAME
      , @schema SYSNAME = 'dbo'
      , @table SYSNAME = NULL

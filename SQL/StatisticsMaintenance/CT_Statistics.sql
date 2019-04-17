@@ -14,4 +14,6 @@ CREATE TABLE [dbo].[statistics](
 	[per_rows_modified] [decimal](18, 2) NULL)
 GO
 
+CREATE CLUSTERED INDEX cix_statistics_load_date ON [dbo].[statistics] (load_date) WITH (DATA_COMPRESSION=PAGE)
+GO
 
