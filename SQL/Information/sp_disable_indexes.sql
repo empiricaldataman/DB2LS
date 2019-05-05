@@ -1,13 +1,8 @@
-<<<<<<< HEAD
-IF OBJECT_ID(N'dbo.sp_disable_indexes','P') IS NOT NULL
-   DROP PROCEDURE dbo.sp_disable_indexes
-=======
 USE [master]
 GO
 
 IF OBJECT_ID(N'dbo.sp_di','P') IS NOT NULL
    DROP PROCEDURE dbo.sp_di
->>>>>>> 810317494211c499d8fc0a2d159aa0ca27943c6f
 GO
 
 /*-------------------------------------------------------------------------------------------------
