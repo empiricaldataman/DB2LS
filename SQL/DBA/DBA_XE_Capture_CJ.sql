@@ -169,12 +169,24 @@ SELECT i.event_data.value(''(@name)'',''varchar(128)'') [name]
             , @os_run_priority=0
             , @subsystem=N'TSQL'
             , @command=N'SET NOCOUNT ON
--- RUNS DAILY AFTER MIDNIGHT BEFORE 1AM
-IF ((DATEPART(minute,GETDATE()) < 59) AND DATEPART(hour,GETDATE()) < 1)
-   SELECT * FROM [dbo].[XE_Monitor_Performance]
-    WHERE [timestamp] < DATEADD(dd,-60,GETDATE())
 
-PRINT CAST(GETDATE() AS VARCHAR) +'' - ''+ CAST(@@ROWCOUNT AS VARCHAR) +'' records were removed from [dbo].[XE_Monitor_Performance].'''
+DECLARE @ROWS INT
+SET @ROWS = 1
+
+-- RUNS DAILY AFTER MIDNIGHT BEFORE 1AM
+WHILE @ROWS <> 0
+      BEGIN
+      IF ((DATEPART(minute,GETDATE()) < 59) AND DATEPART(hour,GETDATE()) < 1)
+   
+      DELETE TOP (10000)
+      --SELECT COUNT(*) 
+        FROM [DBA].[dbo].[XE_Monitor_Performance]
+       WHERE [timestamp] < DATEADD(dd,-60,GETDATE())
+
+      SELECT @ROWS = @@ROWCOUNT
+
+      PRINT CAST(GETDATE() AS VARCHAR) +'' - ''+ CAST(@ROWS AS VARCHAR) +'' records were removed from DBA.[dbo].[XE_Monitor_Performance].''
+END'''
             , @flags=8
 
       IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback

@@ -6,7 +6,7 @@ GO
         NAME: sp_b.sql
   UPDATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: Displays information about 
+ DESCRIPTION: Displays information about current blocking sessions
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
