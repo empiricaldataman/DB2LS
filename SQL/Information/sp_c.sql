@@ -1,8 +1,3 @@
-USE [master]
-GO
-
-SET NOCOUNT ON
-
 IF OBJECT_ID(N'dbo.sp_c','P') IS NOT NULL
    DROP PROCEDURE dbo.sp_c
 GO

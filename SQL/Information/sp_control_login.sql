@@ -1,6 +1,3 @@
-USE [master]
-GO
-
 IF OBJECT_ID(N'dbo.sp_control_login','P') IS NOT NULL
    DROP PROCEDURE dbo.sp_control_login
 GO
@@ -58,5 +55,4 @@ BEGIN CATCH
      DEALLOCATE login_cursor
      RETURN -1
 END CATCH
-
 GO

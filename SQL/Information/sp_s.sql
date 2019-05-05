@@ -1,6 +1,3 @@
-USE [master]
-GO
-
 IF OBJECT_ID(N'dbo.sp_s','P') IS NOT NULL
    DROP PROCEDURE dbo.sp_s
 GO
@@ -9,7 +6,7 @@ GO
         NAME: sp_s.sql
   UPDATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: Searchees for objects, columns, and code containing a pattern
+ DESCRIPTION: Search for objects, columns, and code containing a pattern
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------

@@ -1,6 +1,3 @@
-USE [master]
-GO
-
 IF OBJECT_ID(N'dbo.sp_disable_indexes','P') IS NOT NULL
    DROP PROCEDURE dbo.sp_disable_indexes
 GO
@@ -102,5 +99,4 @@ WHILE @@FETCH_STATUS = 0
 END
 CLOSE IndexCursor
 DEALLOCATE IndexCursor
-
 GO

@@ -1,6 +1,3 @@
-USE [master]
-GO
-
 IF OBJECT_ID(N'dbo.sp_p','P') IS NOT NULL
    DROP PROCEDURE dbo.sp_p
 GO

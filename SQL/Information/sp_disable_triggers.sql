@@ -1,6 +1,3 @@
-USE [master]
-GO
-
 IF OBJECT_ID(N'dbo.sp_disable_triggers','P') IS NOT NULL
    DROP PROCEDURE dbo.sp_disable_triggers
 GO

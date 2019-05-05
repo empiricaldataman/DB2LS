@@ -1,6 +1,3 @@
-USE [master]
-GO
-
 IF OBJECT_ID(N'dbo.sp_enable_foreignkeys','P') IS NOT NULL
    DROP PROCEDURE dbo.sp_enable_foreignkeys
 GO
@@ -123,5 +120,4 @@ WHILE @@FETCH_STATUS = 0
 END
 CLOSE ForeignKeyCursor
 DEALLOCATE ForeignKeyCursor
-
 GO

@@ -1,6 +1,3 @@
-USE [master]
-GO
-
 IF OBJECT_ID(N'dbo.sp_enable_triggers','P') IS NOT NULL
    DROP PROCEDURE dbo.sp_enable_triggers
 GO
@@ -125,7 +122,4 @@ END
 	
 CLOSE TriggerCursor
 DEALLOCATE TriggerCursor
-
 GO
-
-
