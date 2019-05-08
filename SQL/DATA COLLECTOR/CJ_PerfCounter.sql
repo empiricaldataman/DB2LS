@@ -42,26 +42,25 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Collect 
 		@retry_interval=0, 
 		@os_run_priority=0, @subsystem=N'TSQL', 
 		@command=N'SET NOCOUNT ON
---SELECT * FROM  RDXDBA.dbo.PerfCounter
-INSERT INTO RDXDBA.dbo.PerfCounter
+
+INSERT INTO DBA.dbo.PerfCounter
 SELECT GETDATE() [collection_time]
-     , [User Connections] [processes_blocked]
-     , [Free list stalls/sec] [user_connections]
-     , [Lazy writes/sec] [free_list_stalls_sec]
-     , [Page life expectancy] [lazy_writes_sec]
-     , [Full Scans/sec] [page_life_expectancy]
-     , [Index Searches/sec] [full_scans_sec]
-     , [Batch Requests/sec] [index_searches_sec]
-     , [SQL Compilations/sec] [batch_requests_sec]
-     , [SQL Re-Compilations/sec] [sql_compilations_sec]
-     , [Memory Grants Pending] [sql_re-compilations_sec]
+     , [User Connections] [user_connections]
+     , [Free list stalls/sec] [free_list_stalls_sec]
+     , [Lazy writes/sec] [lazy_writes_sec]
+     , [Page life expectancy] [page_life_expectancy]
+     , [Full Scans/sec] [full_scans_sec]
+     , [Index Searches/sec] [index_searches_sec]
+     , [Batch Requests/sec] [batch_requests_sec]
+     , [SQL Compilations/sec] [sql_compilations_sec]
+     , [SQL Re-Compilations/sec] [sql_re-compilations_sec]
      , [Memory Grants Pending] [memory_grants_pending]
   FROM (SELECT counter_name
              , cntr_value
           FROM sys.dm_os_performance_counters
          WHERE 1 = 1
            AND [instance_name] = ''''
-           AND [counter_name] IN (''Processes blocked'',''User Connections'',''Free list stalls/sec'',''Lazy writes/sec'',''Page life expectancy'',''Full Scans/sec'',''Index Searches/sec'',''Batch Requests/sec'',''SQL Compilations/sec'',''SQL Re-Compilations/sec'',''Memory Grants Pending'')) ST
+           AND [counter_name] IN (''User Connections'',''Free list stalls/sec'',''Lazy writes/sec'',''Page life expectancy'',''Full Scans/sec'',''Index Searches/sec'',''Batch Requests/sec'',''SQL Compilations/sec'',''SQL Re-Compilations/sec'',''Memory Grants Pending'')) ST
  PIVOT (MAX(cntr_value) FOR counter_name IN ([Processes blocked]
      , [User Connections]
      , [Free list stalls/sec]
@@ -89,7 +88,7 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Remove P
 		@retry_attempts=0, 
 		@retry_interval=0, 
 		@os_run_priority=0, @subsystem=N'TSQL', 
-		@command=N'DELETE RDXDBA.dbo.PerCounter WHERE collection_date <= GETDATE() - 45', 
+		@command=N'DELETE DBA.dbo.PerCounter WHERE collection_date <= GETDATE() - 45', 
 		@database_name=N'master', 
 		@flags=8
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
