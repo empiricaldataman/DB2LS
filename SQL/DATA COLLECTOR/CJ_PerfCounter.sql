@@ -43,16 +43,10 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Collect 
 		@os_run_priority=0, @subsystem=N'TSQL', 
 		@command=N'SET NOCOUNT ON
 
-<<<<<<< HEAD
 INSERT INTO RDXDBA.dbo.PerfCounter ([collection_time], [processes_blocked], [user_connections], [free_list_stalls_sec], [lazy_writes_sec], [page_life_expectancy], [full_scans_sec], [index_searches_sec], [batch_requests_sec], [sql_compilations_sec], [sql_re-compilations_sec], [memory_grants_pending])
 SELECT GETDATE() [collection_time]
      , [Processes blocked] [processes_blocked]
      , [User Connections]  [user_connections]
-=======
-INSERT INTO DBA.dbo.PerfCounter
-SELECT GETDATE() [collection_time]
-     , [User Connections] [user_connections]
->>>>>>> 19e1f1a1e795bab49f0bc057aefeb1ae5e050325
      , [Free list stalls/sec] [free_list_stalls_sec]
      , [Lazy writes/sec] [lazy_writes_sec]
      , [Page life expectancy] [page_life_expectancy]
@@ -66,13 +60,8 @@ SELECT GETDATE() [collection_time]
              , cntr_value
           FROM sys.dm_os_performance_counters
          WHERE 1 = 1
-<<<<<<< HEAD
            AND [instance_name] = ''
            AND [counter_name] IN (''Processes blocked'',''User Connections'',''Free list stalls/sec'',''Lazy writes/sec'',''Page life expectancy'',''Full Scans/sec'',''Index Searches/sec'',''Batch Requests/sec'',''SQL Compilations/sec'',''SQL Re-Compilations/sec'',''Memory Grants Pending'')) ST
-=======
-           AND [instance_name] = ''''
-           AND [counter_name] IN (''User Connections'',''Free list stalls/sec'',''Lazy writes/sec'',''Page life expectancy'',''Full Scans/sec'',''Index Searches/sec'',''Batch Requests/sec'',''SQL Compilations/sec'',''SQL Re-Compilations/sec'',''Memory Grants Pending'')) ST
->>>>>>> 19e1f1a1e795bab49f0bc057aefeb1ae5e050325
  PIVOT (MAX(cntr_value) FOR counter_name IN ([Processes blocked]
      , [User Connections]
      , [Free list stalls/sec]
