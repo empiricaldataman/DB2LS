@@ -27,7 +27,7 @@ IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Load Statistics', 
 		@step_id=1, 
 		@cmdexec_success_code=0, 
-		@on_success_action=1, 
+		@on_success_action=3, 
 		@on_success_step_id=0, 
 		@on_fail_action=2, 
 		@on_fail_step_id=0, 
@@ -36,8 +36,8 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Load Sta
 		@os_run_priority=0, @subsystem=N'TSQL', 
 		@command=N'
 EXEC [dbo].[sp_foreachdb] @command = N''USE ?
-INSERT INTO [DBA].[dbo].[Statistics] ([collection_time], [instance_name], [database_name], [schema_name], [table_name], [stat_name], [stat_last_updated], [rows_in_table], [rows_modified], [rows_modified_percent])
-SELECT CAST(getdate() AS DATE) [collection_time]
+INSERT INTO [RDXDBA].[dbo].[Statistics] ([collection_time], [instance_name], [database_name], [schema_name], [table_name], [stat_name], [stat_last_updated], [rows_in_table], [rows_modified], [rows_modified_percent])
+SELECT GETDATE() [collection_time]
      , @@ServerName [instance_name]
      , DB_NAME() [database_name]
      , sc.name [schema_name]
@@ -54,6 +54,27 @@ SELECT CAST(getdate() AS DATE) [collection_time]
  WHERE o.type = ''''U''''     --user tables
    AND s.auto_created = 0 --stats creates as part of index creation
    AND ddsp.rows > 1000   --stat having greater than or equal to 1000 rows''', 
+		@database_name=N'master', 
+		@flags=8
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Table Maintenance', 
+		@step_id=2, 
+		@cmdexec_success_code=0, 
+		@on_success_action=1, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'SET NOCOUNT ON
+-- RUNS DAILY AFTER MIDNIGHT BEFORE 1AM
+IF ((DATEPART(minute,GETDATE()) < 59) AND DATEPART(hour,GETDATE()) < 1)
+   DELETE [DBA].[dbo].[Statistics]
+    WHERE [collection_time] < DATEADD(dd,-60,GETDATE())
+
+PRINT CAST(GETDATE() AS VARCHAR) +'' - ''+ CAST(@@ROWCOUNT AS VARCHAR) +'' records were removed from [DBA].[dbo].[Statistics].''', 
 		@database_name=N'master', 
 		@flags=8
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback

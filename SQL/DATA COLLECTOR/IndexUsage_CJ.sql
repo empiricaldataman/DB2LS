@@ -9,7 +9,6 @@ IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name=N'Data Collect
 BEGIN
 EXEC @ReturnCode = msdb.dbo.sp_add_category @class=N'JOB', @type=N'LOCAL', @name=N'Data Collector'
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
-
 END
 
 DECLARE @jobId BINARY(16)
@@ -28,7 +27,7 @@ IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Load Index Usage', 
 		@step_id=1, 
 		@cmdexec_success_code=0, 
-		@on_success_action=1, 
+		@on_success_action=3, 
 		@on_success_step_id=0, 
 		@on_fail_action=2, 
 		@on_fail_step_id=0, 
@@ -59,6 +58,21 @@ SELECT GETDATE() [collection_time]
    AND A.[user_seeks] + A.[user_scans] + A.[user_lookups] <= A.user_updates
    AND OBJECTPROPERTY(A.[object_id], ''''IsUserTable'''') = 1
    AND A.[user_seeks] + A.[user_scans] + A.[user_lookups] >= 100''', 
+		@database_name=N'master', 
+		@flags=8
+IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
+
+EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Table Maintenance', 
+		@step_id=2, 
+		@cmdexec_success_code=0, 
+		@on_success_action=1, 
+		@on_success_step_id=0, 
+		@on_fail_action=2, 
+		@on_fail_step_id=0, 
+		@retry_attempts=0, 
+		@retry_interval=0, 
+		@os_run_priority=0, @subsystem=N'TSQL', 
+		@command=N'DELETE DBA.dbo.IndexUsage WHERE collection_time <= GETDATE() - 45', 
 		@database_name=N'master', 
 		@flags=8
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback

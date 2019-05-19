@@ -62,11 +62,6 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Collect 
 		@os_run_priority=0, @subsystem=N'TSQL', 
 		@command=N'SET NOCOUNT ON
 
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
 IF OBJECT_ID(N''tempdb..#T1'',''U'') IS NOT NULL
    DROP TABLE #T1
 
@@ -142,10 +137,10 @@ SELECT i.event_data.value(''(@name)'',''varchar(128)'') [name]
   FROM #T1 A
  CROSS APPLY A.[target_data].nodes(''/RingBufferTarget/event'') i(event_data)
  
- INSERT INTO DPR.dbo.XE_Monitor_Performance
+ INSERT INTO DBA.dbo.XE_Monitor_Performance
  SELECT A.* 
    FROM #XE_Monitor_Performance A 
-   LEFT JOIN [DPR].[dbo].[XE_Monitor_Performance] B ON A.[timestamp] = B.timestamp
+   LEFT JOIN [DBA].[dbo].[XE_Monitor_Performance] B ON A.[timestamp] = B.timestamp
     AND A.session_id = B.session_id
   WHERE B.[timestamp] IS NULL', 
 		@database_name=N'master', 
@@ -165,10 +160,10 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Table Ma
 		@command=N'SET NOCOUNT ON
 -- RUNS DAILY AFTER MIDNIGHT BEFORE 1AM
 IF ((DATEPART(minute,GETDATE()) < 59) AND DATEPART(hour,GETDATE()) < 1)
-   DELETE FROM [DPR].[dbo].[XE_Monitor_Performance]
+   DELETE FROM [DBA].[dbo].[XE_Monitor_Performance]
     WHERE [timestamp] < DATEADD(dd,-60,GETDATE())
 
-PRINT CAST(GETDATE() AS VARCHAR) +'' - ''+ CAST(@@ROWCOUNT AS VARCHAR) +'' records were removed from DPR.[dbo].[XE_Monitor_Performance].''', 
+PRINT CAST(GETDATE() AS VARCHAR) +'' - ''+ CAST(@@ROWCOUNT AS VARCHAR) +'' records were removed from [DBA].[dbo].[XE_Monitor_Performance].''', 
 		@database_name=N'DPR', 
 		@flags=8
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback

@@ -5,17 +5,14 @@ BEGIN TRANSACTION
 DECLARE @ReturnCode INT
 SELECT @ReturnCode = 0
 
-IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name=N'[Uncategorized (Local)]' AND category_class=1)
+IF NOT EXISTS (SELECT name FROM msdb.dbo.syscategories WHERE name=N'Data Collector' AND category_class=1)
 BEGIN
-EXEC @ReturnCode = msdb.dbo.sp_add_category @class=N'JOB', @type=N'LOCAL', @name=N'[Uncategorized (Local)]'
+EXEC @ReturnCode = msdb.dbo.sp_add_category @class=N'JOB', @type=N'LOCAL', @name=N'Data Collector'
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
 END
 
 DECLARE @jobId BINARY(16)
-select @jobId = job_id from msdb.dbo.sysjobs where (name = N'Collect Performance Counter')
-if (@jobId is NULL)
-BEGIN
 EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N'Collect Performance Counter', 
 		@enabled=1, 
 		@notify_level_eventlog=0, 
@@ -23,14 +20,11 @@ EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N'Collect Performance Counter'
 		@notify_level_netsend=0, 
 		@notify_level_page=0, 
 		@delete_level=0, 
-		@description=N'No description available.', 
+		@description=N'Collect performance counters from SQL instance', 
 		@category_name=N'Data Collector', 
 		@owner_login_name=N'sa', @job_id = @jobId OUTPUT
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
-END
-
-IF NOT EXISTS (SELECT * FROM msdb.dbo.sysjobsteps WHERE job_id = @jobId and step_id = 1)
 EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Collect Performance Counter', 
 		@step_id=1, 
 		@cmdexec_success_code=0, 
@@ -78,7 +72,6 @@ SELECT GETDATE() [collection_time]
 		@flags=8
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
-IF NOT EXISTS (SELECT * FROM msdb.dbo.sysjobsteps WHERE job_id = @jobId and step_id = 2)
 EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Table Maintenance', 
 		@step_id=2, 
 		@cmdexec_success_code=0, 
@@ -89,7 +82,7 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Table Ma
 		@retry_attempts=0, 
 		@retry_interval=0, 
 		@os_run_priority=0, @subsystem=N'TSQL', 
-		@command=N'DELETE DBA.dbo.PerCounter WHERE collection_date <= GETDATE() - 45', 
+		@command=N'DELETE DBA.dbo.PerCounter WHERE collection_time <= GETDATE() - 45', 
 		@database_name=N'master', 
 		@flags=8
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
@@ -107,6 +100,7 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobschedule @job_id=@jobId, @name=N'Collect P
 		@active_end_date=99991231, 
 		@active_start_time=0, 
 		@active_end_time=235959
+
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 EXEC @ReturnCode = msdb.dbo.sp_add_jobserver @job_id = @jobId, @server_name = N'(local)'
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
@@ -116,4 +110,3 @@ QuitWithRollback:
     IF (@@TRANCOUNT > 0) ROLLBACK TRANSACTION
 EndSave:
 GO
-
