@@ -14,4 +14,3 @@ GO
 
 CREATE CLUSTERED INDEX cix_statistics_collection_time ON [dbo].[statistics] (collection_time)
 GO
-
