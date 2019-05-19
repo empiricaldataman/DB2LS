@@ -2,17 +2,17 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Pe
 BEGIN
 CREATE TABLE [dbo].[PerfCounter](
 	[collection_time] [datetime] NOT NULL,
-	[processes_blocked] [int] NULL,
+	[processes_blocked] [bigint] NULL,
 	[user_connections] [int] NULL,
-	[free_list_stalls_sec] [int] NULL,
-	[lazy_writes_sec] [int] NULL,
-	[page_life_expectancy] [int] NULL,
-	[full_scans_sec] [int] NULL,
-	[index_searches_sec] [int] NULL,
-	[batch_requests_sec] [int] NULL,
-	[sql_compilations_sec] [int] NULL,
-	[sql_re-compilations_sec] [int] NULL,
-	[memory_grants_pending] [int] NULL)
+	[free_list_stalls_sec] [bigint] NULL,
+	[lazy_writes_sec] [bigint] NULL,
+	[page_life_expectancy] [bigint] NULL,
+	[full_scans_sec] [bigint] NULL,
+	[index_searches_sec] [bigint] NULL,
+	[batch_requests_sec] [bigint] NULL,
+	[sql_compilations_sec] [bigint] NULL,
+	[sql_re-compilations_sec] [bigint] NULL,
+	[memory_grants_pending] [bigint] NULL)
 END
 GO
 
