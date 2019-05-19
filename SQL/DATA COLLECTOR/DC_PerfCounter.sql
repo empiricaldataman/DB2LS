@@ -3,6 +3,7 @@
   CREATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
  DESCRIPTION: Displays information captured by the "Collect Performance Counter" SQL Agent job.'
+       NOTES: This query will not work on versions of SQL Server prior to 2012
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
@@ -12,6 +13,18 @@
               personal property, creating singularities, making deep fried chicken, causing your 
               toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
               killing your buzz or ANYTHING else that can be thought up.
+-------------------------------------------------------------------------------------------------              
+      processes_blocked - 
+       user_connections - 
+   free_list_stalls_sec - Number of requests per second that had to wait for a free page.
+        lazy_writes_sec - Number of times per second SQL Server relocates dirty pages from buffer pool (memory) to disk (20).
+   page_life_expectancy - How long a page will stay in the buffer pool (memory) without being referenced (300).
+         full_scans_sec - Number of unrestricted full scans on base tables or indexes.
+     index_searches_sec - 
+     batch_requests_sec - Use as an indicator of just how much load is being place on the system.
+   sql_compilations_sec - Number of batch compiles and statement recompiles as part of its aggregation.
+sql_re-compilations_sec - Number of recompiles of batches and statements.
+  memory_grants_pending - Number of processes pending for a memory grant within SQL Server memory (AVG=0).
 -------------------------------------------------------------------------------------------------*/
 SET NOCOUNT ON
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED; 

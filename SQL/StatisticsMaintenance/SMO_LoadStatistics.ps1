@@ -109,8 +109,7 @@ SELECT CAST(getdate() AS DATE) load_date,
  OUTER APPLY sys.dm_db_stats_properties(s.object_id, s.stats_id) ddsp
  WHERE o.type = 'U'       --user tables
    AND s.auto_created = 0 --stats creates as part of index creation
-   AND ddsp.rows > 1000   --stat having greater than or equal to 1000 rows
- 
+   AND ddsp.rows > 1000   --stat having greater than or equal to 1000 rows 
 "@
 
 [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.SqlServer.SMO") | Out-Null
