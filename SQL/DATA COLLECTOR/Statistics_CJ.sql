@@ -36,7 +36,7 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Load Sta
 		@os_run_priority=0, @subsystem=N'TSQL', 
 		@command=N'
 EXEC [dbo].[sp_foreachdb] @command = N''USE ?
-INSERT INTO [RDXDBA].[dbo].[Statistics] ([collection_time], [instance_name], [database_name], [schema_name], [table_name], [stat_name], [stat_last_updated], [rows_in_table], [rows_modified], [rows_modified_percent])
+INSERT INTO [DBA].[dbo].[Statistics] ([collection_time], [instance_name], [database_name], [schema_name], [table_name], [stat_name], [stat_last_updated], [rows_in_table], [rows_modified], [rows_modified_percent])
 SELECT GETDATE() [collection_time]
      , @@ServerName [instance_name]
      , DB_NAME() [database_name]

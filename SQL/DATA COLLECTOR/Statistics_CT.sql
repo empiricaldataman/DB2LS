@@ -12,5 +12,5 @@ CREATE TABLE [dbo].[Statistics](
 	[rows_modified_percent] [decimal](18, 2) NULL)
 GO
 
-CREATE CLUSTERED INDEX cix_statistics_collection_time ON [dbo].[statistics] (collection_time)
+CREATE CLUSTERED INDEX cix_Statistics_collection_time ON [dbo].[Statistics] (collection_time)
 GO

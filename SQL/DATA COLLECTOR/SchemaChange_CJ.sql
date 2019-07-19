@@ -23,7 +23,7 @@ EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N'!RDX - Collect Schema Change
 		@description=N'No description available.', 
 		@category_name=N'Data Collector', 
 		@owner_login_name=N'sa', 
-		@notify_email_operator_name=N'RDX DBA', @job_id = @jobId OUTPUT
+		@notify_email_operator_name=N'DBA', @job_id = @jobId OUTPUT
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 
 EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Collect Schema Change', 
@@ -122,7 +122,7 @@ IF @enable = 1
         SET @diff= datediff(hh,@d1,getdate())
         SET @diff=@diff/24; 
         
-		INSERT INTO RDXDBA.dbo.SchemaChange (
+		INSERT INTO DBA.dbo.SchemaChange (
                [difference]
              , [date]
              , [obj_type_desc]
@@ -158,7 +158,7 @@ IF @enable = 1
              , A.application_name
              , A.ddl_operation
           FROM #temp_trace A
-		  LEFT JOIN [RDXDBA].[dbo].[SchemaChange] B ON A.[start_time] = B.[start_time]
+		  LEFT JOIN [DBA].[dbo].[SchemaChange] B ON A.[start_time] = B.[start_time]
 		   AND A.[obj_id] = B.[obj_id]
 		   AND A.[database_name] = B.[database_name]
          WHERE A.object_type not in (21587) -- don''t bother with auto-statistics AS it generates too much noise

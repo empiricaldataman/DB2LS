@@ -37,7 +37,7 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Collect 
 		@os_run_priority=0, @subsystem=N'TSQL', 
 		@command=N'SET NOCOUNT ON
 
-INSERT INTO RDXDBA.dbo.PerfCounter ([collection_time], [processes_blocked], [user_connections], [free_list_stalls_sec], [lazy_writes_sec], [page_life_expectancy], [full_scans_sec], [index_searches_sec], [batch_requests_sec], [sql_compilations_sec], [sql_re-compilations_sec], [memory_grants_pending])
+INSERT INTO DBA.dbo.PerfCounter ([collection_time], [processes_blocked], [user_connections], [free_list_stalls_sec], [lazy_writes_sec], [page_life_expectancy], [full_scans_sec], [index_searches_sec], [batch_requests_sec], [sql_compilations_sec], [sql_re-compilations_sec], [memory_grants_pending])
 SELECT GETDATE() [collection_time]
      , [Processes blocked] [processes_blocked]
      , [User Connections]  [user_connections]
