@@ -12,7 +12,7 @@ IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
 END
 
 DECLARE @jobId BINARY(16)
-EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N'Collect  Index Usage', 
+EXEC @ReturnCode =  msdb.dbo.sp_add_job @job_name=N'Collect Index Usage', 
 		@enabled=1, 
 		@notify_level_eventlog=2, 
 		@notify_level_email=0, 
@@ -54,6 +54,7 @@ SELECT GETDATE() [collection_time]
  INNER JOIN sys.schemas D ON B.[schema_id] = D.[schema_id]
   LEFT JOIN sys.dm_db_index_usage_stats A ON A.[object_id] = B.[object_id]
  WHERE A.database_id = db_id()
+   AND A.database_id > 4
    AND C.index_id = A.index_id
    AND A.[user_seeks] + A.[user_scans] + A.[user_lookups] <= A.user_updates
    AND OBJECTPROPERTY(A.[object_id], ''''IsUserTable'''') = 1
