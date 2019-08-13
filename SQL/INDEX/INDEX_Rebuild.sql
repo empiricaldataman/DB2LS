@@ -11,7 +11,7 @@
   DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
               personal property, creating singularities, making deep fried chicken, causing your 
               toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
-			  killing your buzz or ANYTHING else that can be thought up.
+		  killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------*/
 SET NOCOUNT ON
 
@@ -22,7 +22,8 @@ SELECT dt.[schema],
        OBJECT_NAME(dt.[object_id]) [TableName], 
        si.name [IndexName],
        dt.avg_fragmentation_in_percent,
-       dt.avg_page_space_used_in_percent
+       dt.avg_page_space_used_in_percent,
+       dt.index_id
   INTO #tblIndexDefrag
   FROM (SELECT S.[name] [schema],
                A.[object_id],
@@ -38,6 +39,7 @@ SELECT dt.[schema],
 
 DECLARE @vTableName varchar(128),
         @vIndexName varchar(128),
+        @vIndexID int,
 		@vSchemaName varchar(128),
 		@vFragmentation varchar(12),
         @vSQL nvarchar(4000)
@@ -45,28 +47,28 @@ DECLARE @vTableName varchar(128),
 DECLARE C CURSOR FAST_FORWARD
     FOR SELECT [Schema],
 	           [TableName],
+               [index_id],
                [IndexName],
 			   [avg_fragmentation_in_percent]
           FROM #tblIndexDefrag
          WHERE avg_fragmentation_in_percent > 20
-		   AND [TableName] <> 'CHD_D_BASE_CCXOB105'
-         ORDER BY 2 DESC, 1 DESC
+         ORDER BY 2 DESC, 3, 1 DESC
 
    OPEN C
   FETCH NEXT FROM C
-   INTO @vSchemaName, @vTableName, @vIndexName, @vFragmentation
+   INTO @vSchemaName, @vTableName, @vIndexID, @vIndexName, @vFragmentation
 
   WHILE @@FETCH_STATUS = 0
         BEGIN
         SELECT @vSQL = N'ALTER INDEX '+ @vIndexName + CHAR(10) +
                         '   ON ['+ @vSchemaName +'].['+ @vTableName +']'+ CHAR(10) +
-                        '      REBUILD WITH (ONLINE = ON)'
+                        '      REBUILD' --WITH (ONLINE = ON)'
                         
         EXEC(@vSQL)
         --SELECT @vSQL
         
         PRINT 'Index '+ @vIndexName +' on table '+ @vSchemaName +'.'+ @vTableName +' has been defragmented ('+ CAST(@vFragmentation AS VARCHAR) +') - '+ CAST(GETDATE() AS VARCHAR)
-        FETCH NEXT FROM C INTO @vSchemaName, @vTableName, @vIndexName, @vFragmentation             
+        FETCH NEXT FROM C INTO @vSchemaName, @vTableName, @vIndexID, @vIndexName, @vFragmentation             
   END
   CLOSE C
 DEALLOCATE C
