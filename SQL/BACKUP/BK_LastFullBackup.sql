@@ -44,7 +44,7 @@ SELECT database_name,
 --[ FOR EACH DATABASE                                      ]
 SELECT @@SERVERNAME [ServerName],
        D.[name] [database_name],
-       msdb.dbo.fn_CreateTimeString(DATEDIFF(s,A.backup_start_date, A.backup_finish_date)) [BackupDuration],
+       master.dbo.fn_CreateTimeString(DATEDIFF(s,A.backup_start_date, A.backup_finish_date)) [BackupDuration],
        STR(CAST(backup_size AS DECIMAL(20,2)) / 1048576 ,10,2) + ' MB' [backup_size],
        C.physical_device_name,
        A.backup_finish_date
