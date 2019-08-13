@@ -1,12 +1,12 @@
-IF OBJECT_ID(N'dbo.sp_enable_indexes','P') IS NOT NULL
-   DROP PROCEDURE dbo.sp_enable_indexes
+IF OBJECT_ID(N'dbo.sp_ei','P') IS NOT NULL
+   DROP PROCEDURE dbo.sp_ei
 GO
 
 /*-------------------------------------------------------------------------------------------------
-        NAME: sp_enable_indexes.sql
+        NAME: sp_ei.sql
   UPDATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: Displays information about databases
+ DESCRIPTION: Enable indexes
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ GO
               toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
               killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------*/
-CREATE PROCEDURE [dbo].[sp_enable_indexes]
+CREATE PROCEDURE [dbo].[sp_ei]
        @database SYSNAME
      , @schema SYSNAME = 'dbo'
      , @table SYSNAME

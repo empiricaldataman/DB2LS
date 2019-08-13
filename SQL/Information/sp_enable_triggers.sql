@@ -1,12 +1,12 @@
-IF OBJECT_ID(N'dbo.sp_enable_triggers','P') IS NOT NULL
-   DROP PROCEDURE dbo.sp_enable_triggers
+IF OBJECT_ID(N'dbo.sp_et','P') IS NOT NULL
+   DROP PROCEDURE dbo.sp_et
 GO
 
 /*-------------------------------------------------------------------------------------------------
-        NAME: sp_enable_triggers.sql
+        NAME: sp_et.sql
   UPDATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: 
+ DESCRIPTION: Enable triggers
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
@@ -17,7 +17,7 @@ GO
               toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
               killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------*/
-CREATE PROCEDURE [dbo].[sp_enable_triggers]
+CREATE PROCEDURE [dbo].[sp_et]
        @database SYSNAME
      , @schema SYSNAME = 'dbo'
      , @table SYSNAME = NULL
