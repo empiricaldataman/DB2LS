@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------------------------------------
-        NAME: Alert_List.sql
+        NAME: SA_Alert_List.sql
   CREATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
  DESCRIPTION: Displays details about all the alerts
@@ -7,6 +7,7 @@
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
 -- F000000    04.14.2019  SYoung        Initial creation.
+--            08.20.2019  SYoung        Rename file with prefix (SA = SQL Agent) 
 -------------------------------------------------------------------------------------------------
   DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
               personal property, creating singularities, making deep fried chicken, causing your 

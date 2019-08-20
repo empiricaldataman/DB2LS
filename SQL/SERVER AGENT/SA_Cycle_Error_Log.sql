@@ -1,3 +1,18 @@
+/*-----------------------------------------------------------------------------------------------
+        NAME: SA_Cycle_Error_Log.sql
+  CREATED BY: Sal Young
+       EMAIL: saleyoun@yahoo.com
+ DESCRIPTION: Creates job to cycle error low at midnight and sets the log count to 99
+-------------------------------------------------------------------------------------------------
+-- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
+-------------------------------------------------------------------------------------------------
+-- F000000    08.20.2019  SYoung        First version 
+-------------------------------------------------------------------------------------------------
+  DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
+              personal property, creating singularities, making deep fried chicken, causing your 
+              toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
+              killing your buzz or ANYTHING else that can be thought up.
+-------------------------------------------------------------------------------------------------*/
 USE [msdb]
 GO
 
