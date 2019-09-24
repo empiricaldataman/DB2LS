@@ -8,7 +8,7 @@
   DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
               personal property, creating singularities, making deep fried chicken, causing your 
               toilet to  explode, making  your animals spin  around like mad, causing hair loss, 
-			        killing your buzz or ANYTHING else that can be thought up.
+	      killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------*/
 :CONNECT PO
 USE Distribution
@@ -35,7 +35,7 @@ SELECT J.[name]
  WHERE C.[name] = 'REPL-Distribution'
 */
 
-select @name = N'RCHPWCCRPSQL01B\ORIGI-Facts-Facts - Reporting-RCHPWCCRPSQL50A.PROD.-102'
+select @name = N'RCPSQL01\ORG-Facts-Facts - Reporting-RCHPSQL50.-102'
      , @notstarted = 0
      , @succeed = 2
      , @retry = 5
