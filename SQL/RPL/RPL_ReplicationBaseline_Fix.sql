@@ -20,9 +20,9 @@ DECLARE @ServerName VARCHAR(255)
       , @Article VARCHAR(255)
       , @IncludedColumn VARCHAR(255)
 
-SELECT @ServerName = 'RCHPWCCRPSQL01A\SERVICING'
-     , @Publication = 'Servicing - Reporting - 02'
-     , @Article = 'VehicleReturnHistory'
+SELECT @ServerName = 'RCHSQL01\SER'
+     , @Publication = 'Ser - Rep - 02'
+     , @Article = 'ReturnHistory'
      , @IncludedColumn = 'nAdjustedLeaseBalance' --'cGarageState' --'bIsRequiredInHomePage'
 
 /*
