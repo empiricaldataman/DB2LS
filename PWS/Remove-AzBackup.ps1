@@ -1,5 +1,4 @@
-﻿Import-Module Az.Storage
-
+﻿
 function Remove-ADHCAzBackup {
         [CmdletBinding()]
         Param(
@@ -17,15 +16,15 @@ function Remove-ADHCAzBackup {
         }
 
         Process {
-            $context = New-AzStorageContext -StorageAccountName "$StorageAccount" -StorageAccountKey "$StorageAccountKey"
+            $context = New-AzureStorageContext -StorageAccountName "$StorageAccount" -StorageAccountKey "$StorageAccountKey"
             [System.DateTimeOffset] $retentionDateTime = (Get-Date).AddHours(- $RetentionHours)
-            $blobs = Get-AzStorageBlob -Container "$Container" -blob "*.$BackupType" -Context $context | Where-Object {$_.LastModified -le $retentionDateTime}
+            $blobs = Get-AzureStorageBlob -Container "$Container" -blob "*.$BackupType" -Context $context | Where-Object {$_.LastModified -le $retentionDateTime}
             $fileCount = 0
 
             foreach ($blob in $blobs) {
                 $lastModified = ($blob.LastModified).LocalDateTime
                 if ((New-TimeSpan -Start "$lastModified" -End (Get-Date)).TotalHours -ge $RetentionHours) {
-                    Remove-AzStorageBlob -Blob "$($blob.Name)" -Context $context -Container $Container # -Whatif
+                    Remove-AzureStorageBlob -Blob "$($blob.Name)" -Context $context -Container $Container # -Whatif
                     $fileCount ++
                 }
             }
