@@ -6,7 +6,7 @@
  DESCRIPTION: Collects statistics from each user database in a SQL instance and inserts the result into DBA database. 
               
    EXAMPLE 1: Set-Location D:\SQLScripts
-              .\SMO_LoadStatisticsMetadata.ps1 -SQLInstanceSource "DAA30144SQL011"
+              .\SMO_LoadStatisticsMetadata.ps1 -SQLInstanceSource "DAASQL11"
 ---------------------------------------------------------------------------------------------------
   DISCLAIMER: The AUTHOR  ASSUMES NO RESPONSIBILITY  FOR ANYTHING, including  the destruction of 
               personal property, creating singularities, making deep fried chicken, causing your 
