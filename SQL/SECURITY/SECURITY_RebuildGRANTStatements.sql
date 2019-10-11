@@ -8,8 +8,8 @@ DECLARE @load_date date
       , @instance_name varchar(100)
       , @user_name varchar(100)
 
-SET @instance_name = 'DAA30144DSQL01\DATAWAREHOUSE'
-SET @user_name = 'BROWER\BISDEv'
+SET @instance_name = 'DDSQL01\WAREHOUSE'
+SET @user_name = 'BRR\DEV'
 SELECT @load_date = '20140414'  -- MAX(load_date) FROM dbo.Users
 
 SELECT database_name,[user_name],database_role,load_date,instance_name 
