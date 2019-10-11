@@ -44,16 +44,23 @@ SELECT database_name,
 --[ FOR EACH DATABASE                                      ]
 SELECT @@SERVERNAME [ServerName],
        D.[name] [database_name],
+       CASE A.[type] WHEN 'D' THEN 'FULL'
+                     WHEN 'I' THEN 'DIFF'
+                     WHEN 'L' THEN 'LOG'
+                     ELSE NULL END [backup_type],
        master.dbo.fn_CreateTimeString(DATEDIFF(s,A.backup_start_date, A.backup_finish_date)) [BackupDuration],
        STR(CAST(backup_size AS DECIMAL(20,2)) / 1048576 ,10,2) + ' MB' [backup_size],
        C.physical_device_name,
-       A.backup_finish_date
+       A.backup_finish_date ,
+       A.key_algorithm,
+       A.encryptor_type
   FROM [master].[sys].[databases] D
   LEFT JOIN msdb.dbo.backupset A ON D.[name] = A.[database_name]
+   AND A.[type] = ISNULL(@backup_type, A.[type])
   LEFT JOIN @tbl0 B ON A.[database_name] = B.[database_name]
-   AND [type] = @backup_type
   LEFT JOIN msdb.dbo.backupMediaFamily C ON A.media_set_id = C.media_set_id
- WHERE (A.backup_finish_date >= B.backup_finish_date
+ WHERE 1 = 1
+   AND (A.backup_finish_date >= B.backup_finish_date
        OR 
         A.backup_finish_date IS NULL)
  ORDER BY D.[name]
