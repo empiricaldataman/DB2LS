@@ -93,23 +93,26 @@ http://msdn.microsoft.com/en-us/library/30c3y597%28v=VS.90%29.aspx
 }
 
 $qSQLCollectData = @"
-SELECT CAST(getdate() AS DATE) load_date, 
-       @@ServerName instance_name, 
-       DB_NAME() [database_name],
-       sc.name AS [schema_name],
-       o.name AS table_name,
-       [s].[name] AS [stat_name],
-       [ddsp].[last_updated] [stat_last_updated],
-       [ddsp].[rows] AS rows_in_table,
-       [ddsp].[modification_counter] AS rows_modified,
-       CAST(100 * [ddsp].[modification_counter] / [ddsp].[rows] AS DECIMAL(18,2)) AS per_rows_modified
+SELECT CAST(GETDATE() AS smalldatetime) [collection_time]
+     , @@SERVERNAME [instance_name]
+     , DB_NAME() [database_name]
+     , sc.[name] [schema_name]
+     , o.[name] table_name
+     , [s].[name] [stat_name]
+     , [ddsp].[last_updated] [stat_last_updated]
+     , [ddsp].[rows] [rows_in_table]
+     , [ddsp].[modification_counter] [rows_modified]
+     , CAST(100 * [ddsp].[modification_counter] / [ddsp].[rows] AS DECIMAL(18,2)) [per_rows_modified]
+     , CASE WHEN ddsp.[rows] > 1000 AND CAST(100 * [ddsp].[modification_counter] / [ddsp].[rows] AS DECIMAL(18,2)) > 25 THEN N'UPDATE STATISTICS ['+ sc.[name] +'].['+ o.[name] +']' ELSE NULL END [command]
   FROM sys.objects o
-  JOIN sys.stats s ON o.object_id = s.object_id
-  JOIN sys.schemas sc ON o.schema_id = sc.schema_id
- OUTER APPLY sys.dm_db_stats_properties(s.object_id, s.stats_id) ddsp
- WHERE o.type = 'U'       --user tables
+  JOIN sys.stats s ON o.[object_id] = s.[object_id]
+  JOIN sys.schemas sc ON o.[schema_id] = sc.[schema_id]
+ OUTER APPLY sys.dm_db_stats_properties(s.[object_id], s.stats_id) ddsp
+ WHERE 1 = 1
+   AND o.[type] = 'U'       --user tables
    AND s.auto_created = 0 --stats creates as part of index creation
-   AND ddsp.rows > 1000   --stat having greater than or equal to 1000 rows 
+   AND ddsp.[rows] > 1000   --stat having greater than or equal to 1000 rows 
+ ORDER BY CAST(100 * [ddsp].[modification_counter] / [ddsp].[rows] AS DECIMAL(18,2)) DESC
 "@
 
 [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.SqlServer.SMO") | Out-Null

@@ -6,7 +6,7 @@ GO
         NAME: sp_foreachdb.sql
   UPDATED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
- DESCRIPTION: Displays information about databases
+ DESCRIPTION: Replacement of the sp_MsForeachDb which has a known bug
 -------------------------------------------------------------------------------------------------
 -- TR/PROJ#   DATE        MODIFIED      DESCRIPTION   
 -------------------------------------------------------------------------------------------------
