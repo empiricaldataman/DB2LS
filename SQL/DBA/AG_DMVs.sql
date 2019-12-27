@@ -14,6 +14,7 @@
 SELECT * FROM sys.availability_databases_cluster
 SELECT * FROM sys.availability_group_listener_ip_addresses
 SELECT * FROM sys.availability_group_listeners
+SELECT * FROM sys.dm_tcp_listener_states
 SELECT * FROM sys.availability_groups
 SELECT * FROM sys.availability_groups_cluster
 SELECT * FROM sys.availability_read_only_routing_lists
