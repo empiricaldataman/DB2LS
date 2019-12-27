@@ -1,6 +1,6 @@
 /*
 -------------------------------------------------------------------------------------------------
-        NAME: azColumn.sql
+        NAME: azTable.sql
  MODIFIED BY: Sal Young
        EMAIL: saleyoun@yahoo.com
  DESCRIPTION: Creates a stored procedure on an Azure SQL database to gather table metadata.
