@@ -54,7 +54,7 @@ SELECT GETDATE() [collection_time]
              , cntr_value
           FROM sys.dm_os_performance_counters
          WHERE 1 = 1
-           AND [instance_name] = ''
+           AND [instance_name] = ''''
            AND [counter_name] IN (''Processes blocked'',''User Connections'',''Free list stalls/sec'',''Lazy writes/sec'',''Page life expectancy'',''Full Scans/sec'',''Index Searches/sec'',''Batch Requests/sec'',''SQL Compilations/sec'',''SQL Re-Compilations/sec'',''Memory Grants Pending'')) ST
  PIVOT (MAX(cntr_value) FOR counter_name IN ([Processes blocked]
      , [User Connections]
@@ -82,7 +82,7 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'Table Ma
 		@retry_attempts=0, 
 		@retry_interval=0, 
 		@os_run_priority=0, @subsystem=N'TSQL', 
-		@command=N'DELETE DBA.dbo.PerCounter WHERE collection_time <= GETDATE() - 45', 
+		@command=N'DELETE DBA.dbo.PerfCounter WHERE collection_time <= GETDATE() - 45', 
 		@database_name=N'master', 
 		@flags=8
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
