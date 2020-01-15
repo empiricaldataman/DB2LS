@@ -11,7 +11,8 @@
               killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------
 */
-CREATE PROCEDURE dba.[table] 
+CREATE PROCEDURE dba.[table] (
+       @tablename varchar(128) = NULL)
 
 AS
 
@@ -31,6 +32,8 @@ SELECT GETDATE() [collection_time]
      , t.[lob_data_space_id]
   FROM sys.tables t
  INNER JOIN sys.schemas s ON t.schema_id = s.schema_id
+ WHERE 1 = 1
+   AND t.[name] = ISNULL(@tablename, t.[name])
  ORDER BY s.name, t.name
 GO
 

@@ -11,7 +11,9 @@
               killing your buzz or ANYTHING else that can be thought up.
 -------------------------------------------------------------------------------------------------
 */
-CREATE PROCEDURE [dba].[column]
+ALTER PROCEDURE [dba].[column] (
+      @columnname varchar(128) = NULL
+    , @tablename varchar(128) = NULL)
 
 AS
 
@@ -39,6 +41,7 @@ SELECT GETDATE() [collection_time]
    AND st.[user_type_id] = c.[user_type_id]
    AND [object_id] IN (SELECT [object_id] FROM sys.all_objects WHERE is_ms_shipped = 0)
  WHERE 1 = 1
+   AND c.[name] = ISNULL(@columnname, c.[name])
+   AND OBJECT_NAME(c.[object_id]) = ISNULL(@tablename, st.[name])
  ORDER BY c.[object_id], c.column_id
 GO
- 
