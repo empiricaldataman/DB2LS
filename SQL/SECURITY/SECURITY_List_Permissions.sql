@@ -19,7 +19,9 @@ WITH CTE1 ([Grantor], [GrantorIs], [Grantee], [GranteeIs], [PermissionGranted], 
        INNER JOIN sys.schemas s1 ON p1.principal_id = s1.principal_id
         LEFT JOIN sys.database_role_members r1 ON p2.principal_id = r1.member_principal_id
         LEFT JOIN sys.database_principals p4 ON r1.role_principal_id = p4.principal_id
+         AND p2.type = 'R'
         LEFT JOIN sys.objects o1 ON p3.major_id = o1.[object_id]
+         AND s1.schema_id = o1.schema_id
        WHERE p4.[name] IS NULL --p2.[name] = 'BROWER\SQL_ETL_DataDeveloper'
        UNION ALL
        SELECT p1.[name] [Grantor]
@@ -40,10 +42,12 @@ WITH CTE1 ([Grantor], [GrantorIs], [Grantee], [GranteeIs], [PermissionGranted], 
        INNER JOIN sys.schemas s1 ON p1.principal_id = s1.principal_id
        INNER JOIN sys.database_role_members r1 ON p2.principal_id = r1.member_principal_id
        INNER JOIN sys.database_principals p4 ON r1.role_principal_id = p4.principal_id
+         --AND p2.type = 'R'
        INNER JOIN CTE1 ON p4.[name] = CTE1.Grantee
-       INNER JOIN sys.objects o1 ON p3.major_id = o1.[object_id])
+       INNER JOIN sys.objects o1 ON p3.major_id = o1.[object_id]
+         AND s1.schema_id = o1.schema_id)
 
-SELECT * FROM CTE1
+SELECT * FROM CTE1;
 
 
 

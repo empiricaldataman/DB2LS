@@ -37,11 +37,11 @@ SELECT GETDATE() [collection_time]
      , pe.state_desc
      , pe.[permission_name]
      , OBJECT_NAME(pe.major_id) [object]
-FROM sys.database_principals AS pr  
-LEFT JOIN sys.database_permissions AS pe ON pe.grantee_principal_id = pr.principal_id
-WHERE 1 = 1
-  AND pr.[name] NOT IN ('public','guest')
-ORDER BY OBJECT_NAME(pe.major_id), pr.[name]
+  FROM sys.database_principals AS pr  
+  LEFT JOIN sys.database_permissions AS pe ON pe.grantee_principal_id = pr.principal_id
+ WHERE 1 = 1
+   AND pr.[name] NOT IN ('public','guest','dbo','INFORMATION_SCHEMA','##MS_PolicyEventProcessingLogin##','##MS_AgentSigningCertificate##')
+   AND COALESCE(pe.state_desc, pe.[permission_name], OBJECT_NAME(pe.major_id)) IS NOT NULL
 
 
 --[ SQL INSTANCE LOGINS
